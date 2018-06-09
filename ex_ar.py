@@ -28,7 +28,7 @@ class OpenGLGlyphs:
         self.webcam = Webcam()
         self.webcam.start()
         self.find = fp()
-        self.find.set_img('book.jpg')
+        self.find.set_img('ar_img1.jpg')
 
         self.hei, self.wid = self.webcam.get_frame_shape()[:2]
         # initialise cube
