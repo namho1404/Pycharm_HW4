@@ -257,7 +257,6 @@ class OpenGLGlyphs:
         self._init_gl(self.wid, self.hei)
         glutDisplayFunc(self._draw_scene)
         glutIdleFunc(self._draw_scene)
-        glutSpecialFunc(self.keyboard)
         glutMainLoop()
 
 
