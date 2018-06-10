@@ -9,6 +9,7 @@ from webcam import Webcam
 import camera
 from Find_Keypoint import find_point as fp
 
+file = open("heart.obj", "r")
 
 def my_calibration(sz):
     row, col = sz
@@ -133,7 +134,7 @@ class OpenGLGlyphs:
             glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.9, 0.9, 0.0, 1.0])
             glMaterialfv(GL_FRONT, GL_SPECULAR, [1.0, 1.0, 1.0, 1.0])
             glMaterialfv(GL_FRONT, GL_SHININESS, 0.25 * 128.0)
-            glutSolidTeapot(0.1)
+            glutSolidTeapot(0.3)
 
         glutSwapBuffers()
 
@@ -252,7 +253,7 @@ class OpenGLGlyphs:
         glutInit()
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH)
         glutInitWindowSize(self.wid, self.hei)
-        glutInitWindowPosition(400, 400)
+        glutInitWindowPosition(200, 200)
         self.window_id = glutCreateWindow(b"OpenGL Glyphs")
         self._init_gl(self.wid, self.hei)
         glutDisplayFunc(self._draw_scene)
