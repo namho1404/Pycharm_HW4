@@ -60,10 +60,16 @@ class ObjLoader(object):
             for face in self.faces:
                 for f in face:
                     vertexDraw = self.vertices[int(f) - 1]
+                    GLfloat.materialAmbient = {0.0, 0.7, 0.0, 1.0}
+                    GLfloat.materialSpecular = {1.0, 1.0, 1.0, 1.0}
                     glColor3f(1.0, 0.0, 0.0)
+                    glMaterialfv(GL_FRONT, GL_AMBIENT, [0.5, 0.5, 0.0, 1.0])
+                    glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.9, 0.9, 0.0, 1.0])
+                    glMaterialfv(GL_FRONT, GL_SPECULAR, [1.0, 1.0, 1.0, 1.0])
+                    glMaterialfv(GL_FRONT, GL_SHININESS, 0.25 * 128.0)
                     glVertex3fv(vertexDraw)
+
             glEnd()
-        glScalef(0.1,0.1,1)
 ##############################
 class OpenGLGlyphs:
     ##############################################################초기화
@@ -114,10 +120,8 @@ class OpenGLGlyphs:
         gluPerspective(fovy, aspect, near, far)
 
         glMatrixMode(GL_MODELVIEW)
-        # self.d_obj=[OBJ('Rocket.obj')]
         glEnable(GL_TEXTURE_2D)
         self.texture_background = glGenTextures(1)
-        # gluPerspective(33.7, 1.3, 0.1, 100.0)
 
     ##############################################################marker의 kp, des저장
     def set_keypoint(self):
@@ -162,17 +166,14 @@ class OpenGLGlyphs:
 
         if Rt is not None:
             self._set_modelview_from_camera(Rt)
+            glColor4f(1.0, 0.0, 0.0, 0.5)
             glEnable(GL_LIGHTING)
             glEnable(GL_LIGHT0)
             glEnable(GL_DEPTH_TEST)
             glEnable(GL_NORMALIZE)
             glClear(GL_DEPTH_BUFFER_BIT)
-            glMaterialfv(GL_FRONT, GL_AMBIENT, [0.5, 0.5, 0.0, 1.0])
-            glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.9, 0.9, 0.0, 1.0])
-            glMaterialfv(GL_FRONT, GL_SPECULAR, [1.0, 1.0, 1.0, 1.0])
-            glMaterialfv(GL_FRONT, GL_SHININESS, 0.25 * 128.0)
-            #glutSolidTeapot(0.3)
-            ObjLoader("ybnh.obj").render_scene()
+
+            ObjLoader("ybnh2.obj").render_scene()
 
         glutSwapBuffers()
 
