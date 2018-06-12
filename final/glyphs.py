@@ -1,5 +1,5 @@
-from plyph_tset.glyphfunctions import *
-from plyph_tset.glyphdatabase import *
+from plyph_test.glyphfunctions import *
+from plyph_test.glyphdatabase import *
  
 class Glyphs:
      
