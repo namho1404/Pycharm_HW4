@@ -1,36 +1,23 @@
-# marker constants
-ROCKY_ROBOT = 'rocky_robot'
-SPORTY_ROBOT = 'sporty_robot'
-
-# emotion constants
-HAPPY = 'happy'
-SAD = 'sad'
-ANGRY = 'angry'
-
-# search constants
-ROCK = 'rock'
-SPORT = 'sport'
-
-# marker table
-MARKER_TABLE = [[[[0, 1, 0, 1, 0, 0, 0, 1, 1], [0, 0, 1, 1, 0, 1, 0, 1, 0], [1, 1, 0, 0, 0, 1, 0, 1, 0],
-                  [0, 1, 0, 1, 0, 1, 1, 0, 0]], ROCKY_ROBOT], [
-                    [[1, 0, 0, 0, 1, 0, 1, 0, 1], [0, 0, 1, 0, 1, 0, 1, 0, 1], [1, 0, 1, 0, 1, 0, 0, 0, 1],
-                     [1, 0, 1, 0, 1, 0, 1, 0, 0]], SPORTY_ROBOT]]
+# Glyph table
+GLYPH_TABLE = [[[[0, 1, 0, 1, 0, 0, 0, 1, 1], [0, 0, 1, 1, 0, 1, 0, 1, 0], [1, 1, 0, 0, 0, 1, 0, 1, 0],
+                 [0, 1, 0, 1, 0, 1, 1, 0, 0]], "devil"], [
+                   [[1, 0, 0, 0, 1, 0, 1, 0, 1], [0, 0, 1, 0, 1, 0, 1, 0, 1], [1, 0, 1, 0, 1, 0, 0, 0, 1],
+                    [1, 0, 1, 0, 1, 0, 1, 0, 0]], "ar_img1"]]
 
 
-# match marker pattern to database record
-def match_glyph_pattern(marker_pattern):
-    marker_found = False
-    marker_rotation = None
-    marker_name = None
+# Match glyph pattern to database record
+def match_glyph_pattern(glyph_pattern):
+    glyph_found = False
+    glyph_rotation = None
+    glyph_substitute = None
 
-    for marker_record in MARKER_TABLE:
-        for idx, val in enumerate(marker_record[0]):
-            if marker_pattern == val:
-                marker_found = True
-                marker_rotation = idx
-                marker_name = marker_record[1]
+    for glyph_record in GLYPH_TABLE:
+        for idx, val in enumerate(glyph_record[0]):
+            if glyph_pattern == val:
+                glyph_found = True
+                glyph_rotation = idx
+                glyph_substitute = glyph_record[1]
                 break
-        if marker_found: break
+        if glyph_found: break
 
-    return (marker_found, marker_rotation, marker_name)
+    return (glyph_found, glyph_rotation, glyph_substitute)

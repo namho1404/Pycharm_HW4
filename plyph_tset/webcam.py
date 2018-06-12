@@ -19,3 +19,7 @@ class Webcam:
     # get the current frame
     def get_current_frame(self):
         return self.current_frame
+
+    def finish(self):
+        self.video_capture.release()
+        self.th.join()
