@@ -1,6 +1,5 @@
-import cv2
-from glyphfunctions import *
-from glyphdatabase import *
+from plyph_tset.glyphfunctions import *
+from plyph_tset.glyphdatabase import *
  
 class Glyphs:
      
