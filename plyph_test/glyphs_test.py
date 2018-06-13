@@ -38,7 +38,8 @@ while True:
 
             # Stage 6: Border check
             resized_shape = resize_image(topdown_quad, SHAPE_RESIZE)
-            if resized_shape[5, 5] > BLACK_THRESHOLD: continue
+            if len(resized_shape) < 3: continue
+            if resized_shape[3, 3] > BLACK_THRESHOLD: continue
 
             # Stage 7: Glyph pattern
             glyph_pattern = get_glyph_pattern(resized_shape, BLACK_THRESHOLD, WHITE_THRESHOLD)

@@ -77,7 +77,8 @@ def add_substitute_quad(image, substitute_quad, dst):
     matrix = cv2.getPerspectiveTransform(src, dst)
     cv2.warpPerspective(substitute_quad, matrix, (max_width, max_height), warped, borderMode=cv2.BORDER_TRANSPARENT)
 
-    # add substitute quad
+    # add substitute quad\
+    image2 = image
     image[min_y:min_y + max_height, min_x:min_x + max_width] = warped
 
     return image
