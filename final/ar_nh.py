@@ -63,13 +63,7 @@ class ObjLoader(object):
             for face in self.faces:
                 for f in face:
                     vertexDraw = self.vertices[int(f) - 1]
-                    GLfloat.materialAmbient = {0.0, 0.7, 0.0, 1.0}
-                    GLfloat.materialSpecular = {1.0, 1.0, 1.0, 1.0}
-                    glMaterialfv(GL_FRONT, GL_AMBIENT, [0.5, 0.5, 0.0, 1.0])
-                    glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.9, 0.9, 0.0, 1.0])
-                    glMaterialfv(GL_FRONT, GL_SPECULAR, [1.0, 1.0, 1.0, 1.0])
-                    glMaterialfv(GL_FRONT, GL_SHININESS, 0.25 * 128.0)
-                    glColor3f(1.0, 0.0, 0.0)
+                    glColor3f(0.1, 1.0, 0.1)
                     glVertex3fv(vertexDraw)
 
             glEnd()
@@ -81,7 +75,7 @@ class OpenGLGlyphs:
         self.webcam = Webcam()
         self.webcam.start()
         self.find = fp()
-        self.find.set_img('book1.jpg')
+        self.find.set_img('book.jpg')
 
         self.hei, self.wid = self.webcam.get_frame_shape()[:2]
         # initialise cube
@@ -169,13 +163,12 @@ class OpenGLGlyphs:
 
         if Rt is not None:
             self._set_modelview_from_camera(Rt)
-            glColor4f(1.0, 0.0, 0.0, 0.5)
+            glColor3f(1.0, 0.0, 0.0)
             glEnable(GL_LIGHTING)
             glEnable(GL_LIGHT0)
             glEnable(GL_DEPTH_TEST)
             glEnable(GL_NORMALIZE)
             glClear(GL_DEPTH_BUFFER_BIT)
-
             ObjLoader("jnu.obj").render_scene()
 
         glutSwapBuffers()
@@ -185,7 +178,7 @@ class OpenGLGlyphs:
 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-        Rx = np.array([[1, 0, 0], [0, 0, 1], [0, 1, 0]])
+        Rx = np.array([[0.2, 0, 0], [0, 0, 0.2], [0, 0.2, 0]])
 
         # set rotation to best approximation
         R = Rt[:, :3]
