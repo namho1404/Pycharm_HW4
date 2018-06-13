@@ -63,9 +63,7 @@ class ObjLoader(object):
             for face in self.faces:
                 for f in face:
                     vertexDraw = self.vertices[int(f) - 1]
-                    glColor3f(0.1, 1.0, 0.1)
                     glVertex3fv(vertexDraw)
-
             glEnd()
 ##############################
 class OpenGLGlyphs:
@@ -155,7 +153,7 @@ class OpenGLGlyphs:
         glPushMatrix()
 
         # glTranslatef(0.0,0.0,0.0)
-        gluLookAt(0.0, 0.0, 12.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        gluLookAt(0.0, 0.0, 12, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
 
         self._draw_background()
         glPopMatrix()
@@ -163,7 +161,6 @@ class OpenGLGlyphs:
 
         if Rt is not None:
             self._set_modelview_from_camera(Rt)
-            glColor3f(1.0, 0.0, 0.0)
             glEnable(GL_LIGHTING)
             glEnable(GL_LIGHT0)
             glEnable(GL_DEPTH_TEST)
