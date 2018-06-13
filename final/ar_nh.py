@@ -4,7 +4,7 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import cv2
 from PIL import Image
-from numpy import *
+import numpy as np
 from webcam import Webcam
 import camera
 from Find_Keypoint import find_point as fp
@@ -13,9 +13,12 @@ def my_calibration(sz):
     row, col = sz
     fx = 983
     fy = 983
-    K = diag([fx, fy, 1])
+    K = np.diag([fx, fy, 1])
     K[0, 2] = 331
     K[1, 2] = 232
+    #with np.load('calib.npz') as X:
+    #    mtx, dist, rvecs, tvecs = [X[i] for i in ('mtx', 'dist', 'rvecs', 'tvecs')]
+    #print("mtx : ", mtx, "dist : ", dist, "rvecs : ", rvecs, "tvecs : ", tvecs)
     return K
 ##############################
 class ObjLoader(object):
@@ -62,11 +65,11 @@ class ObjLoader(object):
                     vertexDraw = self.vertices[int(f) - 1]
                     GLfloat.materialAmbient = {0.0, 0.7, 0.0, 1.0}
                     GLfloat.materialSpecular = {1.0, 1.0, 1.0, 1.0}
-                    glColor3f(1.0, 0.0, 0.0)
                     glMaterialfv(GL_FRONT, GL_AMBIENT, [0.5, 0.5, 0.0, 1.0])
                     glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.9, 0.9, 0.0, 1.0])
                     glMaterialfv(GL_FRONT, GL_SPECULAR, [1.0, 1.0, 1.0, 1.0])
                     glMaterialfv(GL_FRONT, GL_SHININESS, 0.25 * 128.0)
+                    glColor3f(1.0, 0.0, 0.0)
                     glVertex3fv(vertexDraw)
 
             glEnd()
@@ -111,7 +114,7 @@ class OpenGLGlyphs:
         self.K = my_calibration((Height, Width))
         fx = self.K[0, 0]
         fy = self.K[1, 1]
-        fovy = 2 * arctan(0.5 * Height / fy) * 180 / pi
+        fovy = 2 * np.arctan(0.5 * Height / fy) * 180 / np.pi
         aspect = (float)(Width * fy) / (Height * fx)
         # define the near and far clipping planes
         near = 0.1
@@ -173,7 +176,7 @@ class OpenGLGlyphs:
             glEnable(GL_NORMALIZE)
             glClear(GL_DEPTH_BUFFER_BIT)
 
-            ObjLoader("ybnh2.obj").render_scene()
+            ObjLoader("jnu.obj").render_scene()
 
         glutSwapBuffers()
 
@@ -182,7 +185,7 @@ class OpenGLGlyphs:
 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-        Rx = array([[1, 0, 0], [0, 0, 1], [0, 1, 0]])
+        Rx = np.array([[1, 0, 0], [0, 0, 1], [0, 1, 0]])
 
         # set rotation to best approximation
         R = Rt[:, :3]
@@ -194,8 +197,8 @@ class OpenGLGlyphs:
         t[0] = -t[0]
 
         # setup 4*4 model view matrix
-        M = eye(4)
-        M[:3, :3] = dot(R, Rx)
+        M = np.eye(4)
+        M[:3, :3] = np.dot(R, Rx)
         M[:3, 3] = t
         M[3, :3] = t
 
@@ -215,14 +218,14 @@ class OpenGLGlyphs:
 
         self.H = self.match_images(self.mark_kp, self.mark_des, kp, des)
         if self.H is not None:
-            cam1 = camera.Camera(hstack((self.K, dot(self.K, array([[0], [0], [-1]])))))
+            cam1 = camera.Camera(np.hstack((self.K, np.dot(self.K, np.array([[0], [0], [-1]])))))
             # Rt1=dot(linalg.inv(self.K),cam1.P)
-            cam2 = camera.Camera(dot(self.H, cam1.P))
+            cam2 = camera.Camera(np.dot(self.H, cam1.P))
 
-            A = dot(linalg.inv(self.K), cam2.P[:, :3])
-            A = array([A[:, 0], A[:, 1], cross(A[:, 0], A[:, 1])]).T
-            cam2.P[:, :3] = dot(self.K, A)
-            Rt = dot(linalg.inv(self.K), cam2.P)
+            A = np.dot(np.linalg.inv(self.K), cam2.P[:, :3])
+            A = np.array([A[:, 0], A[:, 1], np.cross(A[:, 0], A[:, 1])]).T
+            cam2.P[:, :3] = np.dot(self.K, A)
+            Rt = np.dot(np.linalg.inv(self.K), cam2.P)
 
             return Rt
         else:
@@ -243,13 +246,13 @@ class OpenGLGlyphs:
                 matC.append(des1[m[0].queryIdx])
 
         if len(matA) > 50:
-            ptsA = float32([m.pt for m in matA])
-            ptsB = float32([n.pt for n in matB])
+            ptsA = np.float32([m.pt for m in matA])
+            ptsB = np.float32([n.pt for n in matB])
             H1 = []
             H1, status = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, 5.0)
             H1 = self.homo_check(H1)
-            self.mat_kp = array([matB[i] for i in range(status.shape[0]) if status[i] == 1])
-            self.mat_des = array([matC[i] for i in range(status.shape[0]) if status[i] == 1])
+            self.mat_kp = np.array([matB[i] for i in range(status.shape[0]) if status[i] == 1])
+            self.mat_des = np.array([matC[i] for i in range(status.shape[0]) if status[i] == 1])
 
             return H1
         else:

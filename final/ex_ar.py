@@ -9,7 +9,7 @@ from webcam import Webcam
 import camera
 from Find_Keypoint import find_point as fp
 
-file = open("heart.obj", "r")
+file = open("ybnh2.obj", "r")
 
 def my_calibration(sz):
     row, col = sz
@@ -29,7 +29,7 @@ class OpenGLGlyphs:
         self.webcam = Webcam()
         self.webcam.start()
         self.find = fp()
-        self.find.set_img('ar_img1.jpg')
+        self.find.set_img('book1.jpg')
 
         self.hei, self.wid = self.webcam.get_frame_shape()[:2]
         # initialise cube
